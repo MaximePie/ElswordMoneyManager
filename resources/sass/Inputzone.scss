@@ -1,3 +1,37 @@
 .Inputzone {
-    border: solid;
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+
+    &__input, &__submit {
+        margin: 0 4px
+    }
+
+    &__input {
+        border: none;
+        border-bottom: solid 1px #bfbfbf;
+        padding-left: 4px;
+    }
+
+    &__submit {
+        border: none;
+        outline: none;
+        border-radius: 16px;
+        width: 120px;
+        padding: 4px;
+
+        &:disabled {
+            background-color: #cdd3d8;
+        }
+    }
+
+    &__submit:enabled {
+        transition: 250ms background-color ease-in-out;
+        background-color: #f0f8ff;
+
+        &:hover {
+            background-color: #e2eaf1;
+            transition: 250ms background-color ease-in-out;
+        }
+    }
 }
