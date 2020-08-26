@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Elsword Money Manager</title>
     </head>
     <body>
     <div id="root"></div>
-    <script async src="{{asset ('app.js')}}"></script>
+    <script async src="{{asset ('js/app.js')}}"></script>
     </body>
 </html>

@@ -27,8 +27,12 @@ class CreateProductpricesTable extends Migration
             $table->integer('success');
             $table->integer('failed');
             $table->float('rate');
-            $table->unsignedBigInteger('last_product_price_id');
+            $table->unsignedBigInteger('last_product_price_id')->nullable();
             $table->foreign('last_product_price_id')
+                ->references('id')->on('productprices')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('next_product_price_id')->nullable();
+            $table->foreign('next_product_price_id')
                 ->references('id')->on('productprices')
                 ->onDelete('cascade');
         });
