@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Observers\ProductPriceObserver;
 use App\Productprice;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Productprice::observe(ProductPriceObserver::class);
+        Schema::defaultStringLength(191);
     }
 }
