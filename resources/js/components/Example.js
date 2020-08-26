@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import server from "../server";
+import "../../sass/base.scss";
+
+import Inputzone from "./Inputzone";
 
 function App() {
 
@@ -24,93 +27,111 @@ function App() {
         }
     }, [editedProduct]);
 
-    console.log(selectedCharacter)
-
     return (
         <div className="App">
-            <div className="App__characterName">
-                Character :
-                <input type="text" className="App__field" onChange={(event) => {
-                    setCharacterName(event.target.value)
-                }}/>
-                <button onClick={createCharacter} type="submit">Enregistrer</button>
-            </div>
-            <div className="App__productName">
-                Produit :
-                <input type="text" className="App__field" onChange={(event) => {
-                    setProduct(event.target.value)
-                }}/>
-                {charactersList.length !== 0 && (
-                    <select name="character" onChange={(event) => {
-                        setSelectedCharacter(event.target.value)
-                    }}>
-                        <option value={null}></option>
-                        {charactersList.map((character) => {
-                            return (
-                                <option value={character.id}>
-                                    {character.name}
-                                </option>
-                            )
-                        })}
-                    </select>
-                )}
-                <button onClick={createProduct} type="submit">Enregistrer</button>
-            </div>
-            <div className="App__products-list">
-                {productsList.map(product => {
-                    return (
-                        <div>
-                            {product.name + ' '}
-                            {product.current_price + ' '}
-                            {charactersList.length !== 0 && (
-                                <select name="character" value={product.character?.id}
-                                        onChange={
-                                            (event) =>
-                                            {updateSelectedCharacter(event.target.value, product.id)}
-                                        }>
-                                    <option value={null}></option>
-                                    {charactersList.map((character) => {
-                                        return (
-                                            <option value={character.id}>
-                                                {character.name}
-                                            </option>
-                                        )
-                                    })}
-                                </select>
-                            )}
-                            <button onClick={() => deleteProduct(product.id)}>Supprimer</button>
-                            <button onClick={() => setEditedProduct({...product})}>Editer</button>
-                            <button onClick={() => {
-                                updateCurrentPrice(product, true)
-                            }}>J'ai vendu !
-                            </button>
-                            <button onClick={() => {
-                                updateCurrentPrice(product, false)
-                            }}>J'ai pas vendu !
-                            </button>
-                        </div>
-                    )
-                })}
-            </div>
-            {editedProduct && (
-                <div className="App_product">
-                    <h3>{editedProduct.name}</h3>
-                    {productPrices && productPrices.map((price) => {
+            <div className="App__content">
+                <div className="App__characterName">
+                    Character :
+                    <input type="text" className="App__field" onChange={(event) => {
+                        setCharacterName(event.target.value)
+                    }}/>
+                    <button onClick={createCharacter} type="submit">Enregistrer</button>
+                </div>
+                <div className="App__productName">
+                    Produit :
+                    <input type="text" className="App__field" onChange={(event) => {
+                        setProduct(event.target.value)
+                    }}/>
+                    {charactersList.length !== 0 && (
+                        <select name="character" onChange={(event) => {
+                            setSelectedCharacter(event.target.value)
+                        }}>
+                            <option value={null}/>
+                            {charactersList.map((character) => {
+                                return (
+                                    <option value={character.id}>
+                                        {character.name}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    )}
+                    <button onClick={createProduct} type="submit">Enregistrer</button>
+                </div>
+                <div className="App__products-list">
+                    {productsList.map(product => {
                         return (
-                            <div className="App__price">
-                                {' ' + price.price}
-                                {' ' + price.success}
-                                {' ' + price.failed}
-                                {' ' + price.rate}%
+                            <div className="Product">
+                                <span className="Product__field">
+                                    {product.name + ' '}
+                                </span>
+                                <span className="Product__field">
+                                    {product.current_price + ' '}
+                                </span>
+                                <span className="Product__field">
+                                    {charactersList.length !== 0 && (
+                                        <select name="character" value={product.character?.id}
+                                                onChange={
+                                                    (event) => {
+                                                        updateSelectedCharacter(event.target.value, product.id)
+                                                    }
+                                                }>
+                                            <option value={null}/>
+                                            {charactersList.map((character) => {
+                                                return (
+                                                    <option value={character.id}>
+                                                        {character.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </select>
+                                    )}
+                                </span>
+                                <span className="Product__field">
+                                    <button onClick={() => deleteProduct(product.id)}>Supprimer</button>
+                                </span>
+
+                                <span className="Product__field">
+                                    <button onClick={() => setEditedProduct({...product})}>Editer</button>
+                                </span>
+                                <span className="Product__field">
+                                    <button onClick={() => {
+                                        updateCurrentPrice(product, true)
+                                    }}>
+                                        J'ai vendu !
+                                    </button>
+                                </span>
+                                <span className="Product__field">
+                                    <button onClick={() => {
+                                        updateCurrentPrice(product, false)
+                                    }}>
+                                        J'ai pas vendu !
+                                    </button>
+                                </span>
                             </div>
                         )
                     })}
-                    <input type="text" className="App__field" onChange={(event) => {
-                        setPrice(event.target.value)
-                    }}/>
-                    <button onClick={createProductPrice} type="submit">Enregistrer</button>
                 </div>
-            )}
+                {editedProduct && (
+                    <div className="App_product">
+                        <h3>{editedProduct.name}</h3>
+                        {productPrices && productPrices.map((price) => {
+                            return (
+                                <div className="App__price">
+                                    {' ' + price.price}
+                                    {' ' + price.success}
+                                    {' ' + price.failed}
+                                    {' ' + price.rate}%
+                                </div>
+                            )
+                        })}
+                        <input type="text" className="App__field" onChange={(event) => {
+                            setPrice(event.target.value)
+                        }}/>
+                        <button onClick={createProductPrice} type="submit">Enregistrer</button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 
