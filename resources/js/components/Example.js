@@ -5,13 +5,17 @@ import server from "../server";
 function App() {
 
     const [product, setProduct] = React.useState('');
+    const [characterName, setCharacterName] = React.useState('');
     const [productsList, setProductsList] = React.useState([]);
+    const [charactersList, setCharactersList] = React.useState([]);
     const [editedProduct, setEditedProduct] = React.useState(undefined);
+    const [selectedCharacter, setSelectedCharacter] = React.useState(undefined);
     const [productPrices, setProductPrices] = React.useState(undefined);
     const [price, setPrice] = React.useState(undefined);
 
     useEffect(() => {
         fetchProducts();
+        fetchCharacters();
     }, []);
 
     useEffect(() => {
@@ -20,18 +24,60 @@ function App() {
         }
     }, [editedProduct]);
 
+    console.log(selectedCharacter)
+
     return (
         <div className="App">
-            <input type="text" className="App__field" onChange={(event) => {
-                setProduct(event.target.value)
-            }}/>
-            <button onClick={createProduct} type="submit">Enregistrer</button>
+            <div className="App__characterName">
+                Character :
+                <input type="text" className="App__field" onChange={(event) => {
+                    setCharacterName(event.target.value)
+                }}/>
+                <button onClick={createCharacter} type="submit">Enregistrer</button>
+            </div>
+            <div className="App__productName">
+                Produit :
+                <input type="text" className="App__field" onChange={(event) => {
+                    setProduct(event.target.value)
+                }}/>
+                {charactersList.length !== 0 && (
+                    <select name="character" onChange={(event) => {
+                        setSelectedCharacter(event.target.value)
+                    }}>
+                        <option value={null}></option>
+                        {charactersList.map((character) => {
+                            return (
+                                <option value={character.id}>
+                                    {character.name}
+                                </option>
+                            )
+                        })}
+                    </select>
+                )}
+                <button onClick={createProduct} type="submit">Enregistrer</button>
+            </div>
             <div className="App__products-list">
                 {productsList.map(product => {
                     return (
                         <div>
                             {product.name + ' '}
                             {product.current_price + ' '}
+                            {charactersList.length !== 0 && (
+                                <select name="character" value={product.character?.id}
+                                        onChange={
+                                            (event) =>
+                                            {updateSelectedCharacter(event.target.value, product.id)}
+                                        }>
+                                    <option value={null}></option>
+                                    {charactersList.map((character) => {
+                                        return (
+                                            <option value={character.id}>
+                                                {character.name}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                            )}
                             <button onClick={() => deleteProduct(product.id)}>Supprimer</button>
                             <button onClick={() => setEditedProduct({...product})}>Editer</button>
                             <button onClick={() => {
@@ -69,13 +115,35 @@ function App() {
     );
 
     /**
+     * Sends character name to the backoffice to create an item
+     */
+    function createCharacter() {
+        server.post('character', {name: characterName}).then(() => {
+            fetchCharacters();
+            setCharacterName('');
+        });
+    }
+
+    /**
      * Sends product name to the backoffice to create an item
      */
     function createProduct() {
-        server.post('product', {name: product}).then(() => {
+        server.post('product', {name: product, selectedCharacter}).then(() => {
             setProduct('');
             fetchProducts();
         });
+    }
+
+    /**
+     * Fetch the Characters and set it
+     */
+    function fetchCharacters() {
+        server.get('characters').then((response) => {
+            const {characters} = response.data;
+            if (characters) {
+                setCharactersList(characters)
+            }
+        })
     }
 
     /**
@@ -126,7 +194,20 @@ function App() {
     function updateCurrentPrice(updatedProduct, success) {
         server.post('updateProductPrice',
             {productPriceId: updatedProduct.current_price_id, success, productId: updatedProduct.id}
-            ).then(() => {
+        ).then(() => {
+            fetchProducts();
+            if (editedProduct) {
+                fetchProductPrices();
+            }
+        })
+    }
+
+    /**
+     * Update the selected character
+     */
+    function updateSelectedCharacter(characterId, productId) {
+        server.post(`updateSelectedCharacter/${productId}`, {characterId}
+        ).then(() => {
             fetchProducts();
             if (editedProduct) {
                 fetchProductPrices();

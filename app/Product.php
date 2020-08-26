@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int current_price_id
+ * @property int character_id
  */
 class Product extends Model
 {

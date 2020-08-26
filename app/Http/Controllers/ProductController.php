@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Character;
 use App\Product;
 use App\Productprice;
 use Illuminate\Http\JsonResponse;
@@ -22,11 +23,18 @@ class ProductController extends Controller
         $products->each(function (Product $product) {
             /** @var Productprice $currentProductPrice */
             $currentProductPrice = Productprice::find($product->current_price_id);
+
             if ($currentProductPrice) {
                 $product['current_price'] = $currentProductPrice->price;
             }
             else {
                 $product['current_price'] = 0;
+            }
+
+            if ($product->character_id) {
+                /** @var Character $character */
+                $character = Character::findOrFail($product->character_id);
+                $product['character'] = $character;
             }
         });
 
@@ -52,7 +60,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         if ($request->name) {
-            return response()->json(Product::create(['name' => $request->name]));
+
+            $product = Product::create(['name' => $request->name]);
+
+            if ($request->selectedCharacter) {
+                $character = Character::findOrFail($request->selectedCharacter);
+                $product->character_id = $character->id;
+                $product->save();
+            }
+
+            return response()->json($product);
         } else {
             return response()->json(["Error"]);
         }
@@ -91,7 +108,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $character = Character::findOrFail($request->characterId);
+
+        $product->character_id = $character->id;
+        $product->save();
     }
 
     /**

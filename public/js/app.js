@@ -66832,49 +66832,104 @@ function App() {
       product = _React$useState2[0],
       setProduct = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(''),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
-      productsList = _React$useState4[0],
-      setProductsList = _React$useState4[1];
+      characterName = _React$useState4[0],
+      setCharacterName = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
-      editedProduct = _React$useState6[0],
-      setEditedProduct = _React$useState6[1];
+      productsList = _React$useState6[0],
+      setProductsList = _React$useState6[1];
 
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
       _React$useState8 = _slicedToArray(_React$useState7, 2),
-      productPrices = _React$useState8[0],
-      setProductPrices = _React$useState8[1];
+      charactersList = _React$useState8[0],
+      setCharactersList = _React$useState8[1];
 
   var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
       _React$useState10 = _slicedToArray(_React$useState9, 2),
-      price = _React$useState10[0],
-      setPrice = _React$useState10[1];
+      editedProduct = _React$useState10[0],
+      setEditedProduct = _React$useState10[1];
+
+  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      selectedCharacter = _React$useState12[0],
+      setSelectedCharacter = _React$useState12[1];
+
+  var _React$useState13 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
+      _React$useState14 = _slicedToArray(_React$useState13, 2),
+      productPrices = _React$useState14[0],
+      setProductPrices = _React$useState14[1];
+
+  var _React$useState15 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(undefined),
+      _React$useState16 = _slicedToArray(_React$useState15, 2),
+      price = _React$useState16[0],
+      setPrice = _React$useState16[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     fetchProducts();
+    fetchCharacters();
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (editedProduct) {
       fetchProductPrices();
     }
   }, [editedProduct]);
+  console.log(selectedCharacter);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "App"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "App__characterName"
+  }, "Character :", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    className: "App__field",
+    onChange: function onChange(event) {
+      setCharacterName(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: createCharacter,
+    type: "submit"
+  }, "Enregistrer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "App__productName"
+  }, "Produit :", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     className: "App__field",
     onChange: function onChange(event) {
       setProduct(event.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }), charactersList.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: "character",
+    onChange: function onChange(event) {
+      setSelectedCharacter(event.target.value);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: null
+  }), charactersList.map(function (character) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: character.id
+    }, character.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: createProduct,
     type: "submit"
-  }, "Enregistrer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Enregistrer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "App__products-list"
   }, productsList.map(function (product) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, product.name + ' ', product.current_price + ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    var _product$character;
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, product.name + ' ', product.current_price + ' ', charactersList.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      name: "character",
+      value: (_product$character = product.character) === null || _product$character === void 0 ? void 0 : _product$character.id,
+      onChange: function onChange(event) {
+        updateSelectedCharacter(event.target.value, product.id);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: null
+    }), charactersList.map(function (character) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: character.id
+      }, character.name);
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       onClick: function onClick() {
         return deleteProduct(product.id);
       }
@@ -66908,15 +66963,43 @@ function App() {
     type: "submit"
   }, "Enregistrer")));
   /**
+   * Sends character name to the backoffice to create an item
+   */
+
+  function createCharacter() {
+    _server__WEBPACK_IMPORTED_MODULE_2__["default"].post('character', {
+      name: characterName
+    }).then(function () {
+      fetchCharacters();
+      setCharacterName('');
+    });
+  }
+  /**
    * Sends product name to the backoffice to create an item
    */
 
+
   function createProduct() {
     _server__WEBPACK_IMPORTED_MODULE_2__["default"].post('product', {
-      name: product
+      name: product,
+      selectedCharacter: selectedCharacter
     }).then(function () {
       setProduct('');
       fetchProducts();
+    });
+  }
+  /**
+   * Fetch the Characters and set it
+   */
+
+
+  function fetchCharacters() {
+    _server__WEBPACK_IMPORTED_MODULE_2__["default"].get('characters').then(function (response) {
+      var characters = response.data.characters;
+
+      if (characters) {
+        setCharactersList(characters);
+      }
     });
   }
   /**
@@ -66980,6 +67063,22 @@ function App() {
       productPriceId: updatedProduct.current_price_id,
       success: success,
       productId: updatedProduct.id
+    }).then(function () {
+      fetchProducts();
+
+      if (editedProduct) {
+        fetchProductPrices();
+      }
+    });
+  }
+  /**
+   * Update the selected character
+   */
+
+
+  function updateSelectedCharacter(characterId, productId) {
+    _server__WEBPACK_IMPORTED_MODULE_2__["default"].post("updateSelectedCharacter/".concat(productId), {
+      characterId: characterId
     }).then(function () {
       fetchProducts();
 
