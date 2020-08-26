@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::query()->orderBy('character_id')->get();
 
         $products->each(function (Product $product) {
             /** @var Productprice $currentProductPrice */
