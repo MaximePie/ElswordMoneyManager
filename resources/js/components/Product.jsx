@@ -18,7 +18,7 @@ export default function Product(props) {
 						name="character"
 						value={product.character?.id}
 						onChange={(event) => {updateSelectedCharacter(event.target.value, product.id)}}>
-						<option value={null}/>
+						<option value={undefined}/>
 						{charactersList.map((character) => {
 							return (
 								<option value={character.id}>
@@ -29,11 +29,11 @@ export default function Product(props) {
 					</select>
 				)}
 			</span>
-			<span className="Product__field">
-				<button onClick={() => deleteProduct(product.id)}>Supprimer</button>
+			<span className="Product__field" onClick={() => deleteProduct(product.id)}>
+				<i className="fas fa-trash"/>
 			</span>
-			<span className="Product__field">
-					<button onClick={onEdit}>Editer</button>
+			<span className="Product__field" onClick={onEdit}>
+				<i className="fas fa-edit"/>
 			</span>
 			<span className="Product__field" onClick={() => {updateCurrentPrice(product, true)}}>
 				<i className="fas fa-plus"/>

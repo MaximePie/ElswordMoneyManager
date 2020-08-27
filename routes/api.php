@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('characters', 'CharacterController@index');
-Route::get('products', 'ProductController@index');
+Route::get('products/{filteredCharacter?}', 'ProductController@index');
 Route::get('products/delete/{product}', 'ProductController@destroy');
 Route::get('product/{product}', 'ProductController@show');
 

@@ -11,6 +11,7 @@ function App() {
 
 	const [productsList, setProductsList] = React.useState([]);
 	const [charactersList, setCharactersList] = React.useState([]);
+	const [filteredCharacter, setFilteredCharacter] = React.useState(undefined);
 	const [editedProduct, setEditedProduct] = React.useState(undefined);
 	const [productPrices, setProductPrices] = React.useState(undefined);
 	const [price, setPrice] = React.useState(undefined);
@@ -21,10 +22,16 @@ function App() {
 	}, []);
 
 	useEffect(() => {
+		fetchProducts();
+	}, [filteredCharacter]);
+
+	useEffect(() => {
 		if (editedProduct) {
 			fetchProductPrices();
 		}
 	}, [editedProduct]);
+
+	console.log(filteredCharacter);
 
 	return (
 		<div className="App">
@@ -33,6 +40,8 @@ function App() {
 					onProductUpdate={fetchProducts}
 					onCharacterUpdate={fetchCharacters}
 					charactersList={charactersList}
+					onFilter={setFilteredCharacter}
+					filteredCharacter={filteredCharacter}
 				/>
 				<div className="App__products-list">
 					{productsList.map(product => {
@@ -86,7 +95,10 @@ function App() {
 	 * Fetch the products and set it
 	 */
 	function fetchProducts() {
-		server.get('products').then((response) => {
+
+		const url = filteredCharacter ? `products/${filteredCharacter}` : 'products';
+
+		server.get(url).then((response) => {
 			const {products} = response.data;
 			if (products) {
 				setProductsList(products)

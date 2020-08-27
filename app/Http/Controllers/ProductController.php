@@ -11,14 +11,24 @@ use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
-    public function index()
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @param Character|null $filteredCharacter
+	 * @return JsonResponse
+	 */
+    public function index(Character $filteredCharacter = null)
     {
-        $products = Product::query()->orderBy('character_id')->get();
+        $products = Product::query();
+
+        if ($filteredCharacter !== null) {
+        	$products = $products->where('character_id', $filteredCharacter->id);
+				}
+        else {
+        	$products = $products->orderBy('character_id');
+				}
+
+				$products = $products->get();
 
         $products->each(function (Product $product) {
             /** @var Productprice $currentProductPrice */
