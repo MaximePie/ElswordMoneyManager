@@ -67838,50 +67838,15 @@ function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "App__products-list"
   }, productsList.map(function (product) {
-    var _product$character;
-
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Product__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      product: product
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "Product__field"
-    }, charactersList.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      name: "character",
-      value: (_product$character = product.character) === null || _product$character === void 0 ? void 0 : _product$character.id,
-      onChange: function onChange(event) {
-        updateSelectedCharacter(event.target.value, product.id);
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: null
-    }), charactersList.map(function (character) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: character.id
-      }, character.name);
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "Product__field"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: function onClick() {
-        return deleteProduct(product.id);
-      }
-    }, "Supprimer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "Product__field"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: function onClick() {
+      product: product,
+      charactersList: charactersList,
+      onUpdateSelectedCharacter: onUpdateSelectedCharacter,
+      onEdit: function onEdit() {
         return setEditedProduct(_objectSpread({}, product));
-      }
-    }, "Editer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "Product__field"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fas fa-plus",
-      onClick: function onClick() {
-        updateCurrentPrice(product, true);
-      }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "Product__field"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: function onClick() {
-        updateCurrentPrice(product, false);
-      }
-    }, "J'ai pas vendu !")));
+      },
+      onPriceUpdate: updateCurrentPrice
+    });
   })), editedProduct && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "App_product"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, editedProduct.name), productPrices && productPrices.map(function (price) {
@@ -67926,15 +67891,6 @@ function App() {
     });
   }
   /**
-   * Deletes the targeted product
-   * @param productId
-   */
-
-
-  function deleteProduct(productId) {
-    _server__WEBPACK_IMPORTED_MODULE_3__["default"].get("products/delete/".concat(productId)).then(fetchProducts);
-  }
-  /**
    * Fetch the ProductInfo and set it
    */
 
@@ -67968,33 +67924,24 @@ function App() {
 
 
   function updateCurrentPrice(updatedProduct, success) {
-    _server__WEBPACK_IMPORTED_MODULE_3__["default"].post('updateProductPrice', {
-      productPriceId: updatedProduct.current_price_id,
-      success: success,
-      productId: updatedProduct.id
-    }).then(function () {
-      fetchProducts();
+    fetchProducts();
 
-      if (editedProduct) {
-        fetchProductPrices();
-      }
-    });
+    if (editedProduct) {
+      fetchProductPrices();
+    }
   }
   /**
    * Update the selected character
    */
 
 
-  function updateSelectedCharacter(characterId, productId) {
-    _server__WEBPACK_IMPORTED_MODULE_3__["default"].post("updateSelectedCharacter/".concat(productId), {
-      characterId: characterId
-    }).then(function () {
-      fetchProducts();
+  function onUpdateSelectedCharacter() {
+    fetchProducts();
+    fetchCharacters();
 
-      if (editedProduct) {
-        fetchProductPrices();
-      }
-    });
+    if (editedProduct) {
+      fetchProductPrices();
+    }
   }
 }
 
@@ -68142,16 +68089,94 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Product; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../server */ "./resources/js/server.js");
+
 
 function Product(props) {
-  var product = props.product;
+  var _product$character;
+
+  var product = props.product,
+      charactersList = props.charactersList,
+      onSelectedCharacter = props.onSelectedCharacter,
+      onEdit = props.onEdit,
+      onPriceUpdate = props.onPriceUpdate;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "Product"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "Product__field"
   }, product.name + ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "Product__field"
-  }, product.current_price + ' '), props.children);
+  }, product.current_price + ' '), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "Product__field"
+  }, charactersList.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: "character",
+    value: (_product$character = product.character) === null || _product$character === void 0 ? void 0 : _product$character.id,
+    onChange: function onChange(event) {
+      updateSelectedCharacter(event.target.value, product.id);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: null
+  }), charactersList.map(function (character) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: character.id
+    }, character.name);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "Product__field"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      return deleteProduct(product.id);
+    }
+  }, "Supprimer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "Product__field"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: onEdit
+  }, "Editer")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "Product__field",
+    onClick: function onClick() {
+      updateCurrentPrice(product, true);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "Product__field",
+    onClick: function onClick() {
+      updateCurrentPrice(product, false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-minus"
+  })), props.children);
+  /**
+   * Update the selected character
+   */
+
+  function updateSelectedCharacter(characterId, productId) {
+    _server__WEBPACK_IMPORTED_MODULE_1__["default"].post("updateSelectedCharacter/".concat(productId), {
+      characterId: characterId
+    }).then(function () {
+      onSelectedCharacter();
+    });
+  }
+  /**
+   * Deletes the targeted product
+   * @param productId
+   */
+
+
+  function deleteProduct(productId) {
+    _server__WEBPACK_IMPORTED_MODULE_1__["default"].get("products/delete/".concat(productId)).then(fetchProducts);
+  }
+  /**
+   * Update the current price
+   */
+
+
+  function updateCurrentPrice(updatedProduct, success) {
+    _server__WEBPACK_IMPORTED_MODULE_1__["default"].post('updateProductPrice', {
+      productPriceId: updatedProduct.current_price_id,
+      success: success,
+      productId: updatedProduct.id
+    }).then(onPriceUpdate);
+  }
 }
 
 /***/ }),
