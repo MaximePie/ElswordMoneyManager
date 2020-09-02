@@ -5,7 +5,9 @@
 @import '~bootstrap/scss/bootstrap';
 
 @import "Inputzone";
+@import "FilterZone";
 @import "Product";
+@import "Navbar";
 
 .App {
 
@@ -15,30 +17,33 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 
-	background-color: #5f5f5f;
+	background-color: #282828;
 
 	&__content {
-		min-width: 600px;
-		width: 80%;
-		min-height: 800px;
-		height: 80%;
+		width: calc(100% - 16px);
+		height: 100%;
+		margin: 3em auto 0 auto;
+		background-color: #efefef;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
 		padding: 8px;
-		border-radius: 8px;
 		overflow: auto;
 		display: grid;
-		grid-template-rows: 100px 1fr;
+		grid-template-rows: 80px 1fr;
 		grid-row-gap: 16px;
 	}
 
+	&__product {
+
+	}
+
 	&__products-list {
-		background-color: white;
 		border-radius: 12px;
-		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
 		.Product {
-			margin: 8px;
+			margin: 8px 0;
 
 			&__field {
 				margin: 0 8px;

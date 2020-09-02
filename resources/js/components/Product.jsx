@@ -13,8 +13,12 @@ export default function Product(props) {
         {product.current_price + ' '}
       </span>
 			<span className="Product__field">
+        {product.current_rate + ' '}
+      </span>
+			<span className="Product__field">
 				{charactersList.length !== 0 && (
 					<select
+						className="Product__character"
 						name="character"
 						value={product.character?.id}
 						onChange={(event) => {updateSelectedCharacter(event.target.value, product.id)}}>
@@ -29,17 +33,17 @@ export default function Product(props) {
 					</select>
 				)}
 			</span>
-			<span className="Product__field" onClick={() => deleteProduct(product.id)}>
-				<i className="fas fa-trash"/>
-			</span>
-			<span className="Product__field" onClick={onEdit}>
-				<i className="fas fa-edit"/>
-			</span>
 			<span className="Product__field" onClick={() => {updateCurrentPrice(product, true)}}>
 				<i className="fas fa-plus"/>
 			</span>
 			<span className="Product__field" onClick={() => {updateCurrentPrice(product, false)}}>
 				<i className="fas fa-minus"/>
+			</span>
+			<span className="Product__field" onClick={onEdit}>
+				<i className="fas fa-edit"/>
+			</span>
+			<span className="Product__field" onClick={() => deleteProduct(product.id)}>
+				<i className="fas fa-trash"/>
 			</span>
 			{props.children}
 		</div>

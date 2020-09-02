@@ -7,8 +7,6 @@ export default function Inputzone(props) {
 		onProductUpdate,
 		onCharacterUpdate,
 		charactersList,
-		onFilter,
-		filteredCharacter,
 	} = props;
 
 
@@ -20,9 +18,9 @@ export default function Inputzone(props) {
 		<div className="Inputzone">
 			<div className="Inputzone__main-fields">
 				<div className="Inputzone__field">
-					<span className="Inputzone__label">
+					<h3 className="Inputzone__label">
 							Personnage
-					</span>
+					</h3>
 					<input
 						type="text"
 						className="Inputzone__input"
@@ -35,9 +33,9 @@ export default function Inputzone(props) {
 					</button>
 				</div>
 				<div className="Inputzone__field">
-					<span className="Inputzone__label">
+					<h3 className="Inputzone__label">
 							Produit
-					</span>
+					</h3>
 					<input
 						className="Inputzone__input"
 						type="text"
@@ -46,7 +44,10 @@ export default function Inputzone(props) {
 							setProduct(event.target.value)
 						}}/>
 					{charactersList.length !== 0 && (
-						<select className="Inputzone__input" name="character" onChange={(event) => {
+						<select
+							className="Inputzone__input" name="character"
+							placeholder="Personnage"
+							onChange={(event) => {
 							setSelectedCharacter(event.target.value)
 						}}>
 							<option value={null}/>
@@ -66,26 +67,6 @@ export default function Inputzone(props) {
 						type="submit">Enregistrer
 					</button>
 				</div>
-			</div>
-			<div className="Inputzone__filter">
-				{charactersList.length !== 0 && (
-					<select
-						className="Inputzone__input" name="character"
-						onChange={(event) => {
-						onFilter(event.target.value)
-					}}
-						value={filteredCharacter || null}
-					>
-						<option value={null}/>
-						{charactersList.map((character) => {
-							return (
-								<option value={character.id}>
-									{character.name}
-								</option>
-							)
-						})}
-					</select>
-				)}
 			</div>
 		</div>
 	);

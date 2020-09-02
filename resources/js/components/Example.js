@@ -4,8 +4,13 @@ import '../../fontawesome/all';
 import server from "../server";
 import "../../sass/base.scss";
 
+import FilterZone from "./FilterZone";
 import Inputzone from "./Inputzone";
+import Navbar from "./Navbar";
 import Product from "./Product";
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
 
 function App() {
 
@@ -31,51 +36,63 @@ function App() {
 		}
 	}, [editedProduct]);
 
-	console.log(filteredCharacter);
-
 	return (
 		<div className="App">
-			<div className="App__content">
-				<Inputzone
-					onProductUpdate={fetchProducts}
-					onCharacterUpdate={fetchCharacters}
-					charactersList={charactersList}
-					onFilter={setFilteredCharacter}
-					filteredCharacter={filteredCharacter}
-				/>
-				<div className="App__products-list">
-					{productsList.map(product => {
-						return (
-							<Product
-								product={product}
+			<BrowserRouter history={createBrowserHistory}>
+				<Navbar/>
+				<Switch>
+					<Route path='/' exact>
+						<div className="App__content">
+							<FilterZone
 								charactersList={charactersList}
-								onUpdateSelectedCharacter={onUpdateSelectedCharacter}
-								onEdit={() => setEditedProduct({...product})}
-								onPriceUpdate={updateCurrentPrice}
+								onFilter={setFilteredCharacter}
+								filteredCharacter={filteredCharacter}
 							/>
-						)
-					})}
-				</div>
-				{editedProduct && (
-					<div className="App_product">
-						<h3>{editedProduct.name}</h3>
-						{productPrices && productPrices.map((price) => {
-							return (
-								<div className="App__price">
-									{' ' + price.price}
-									{' ' + price.success}
-									{' ' + price.failed}
-									{' ' + price.rate}%
+							<div className="App__products-list">
+								{productsList.map(product => {
+									return (
+										<Product
+											product={product}
+											charactersList={charactersList}
+											onUpdateSelectedCharacter={onUpdateSelectedCharacter}
+											onEdit={() => setEditedProduct({...product})}
+											onPriceUpdate={updateCurrentPrice}
+										/>
+									)
+								})}
+							</div>
+							{editedProduct && (
+								<div className="App_product">
+									<h3>{editedProduct.name}</h3>
+									{productPrices && productPrices.map((price) => {
+										return (
+											<div className="App__price">
+												{' ' + price.price}
+												{' ' + price.success}
+												{' ' + price.failed}
+												{' ' + price.rate}%
+											</div>
+										)
+									})}
+									<input type="text" className="App__field" onChange={(event) => {
+										setPrice(event.target.value)
+									}}/>
+									<button onClick={createProductPrice} type="submit">Enregistrer</button>
 								</div>
-							)
-						})}
-						<input type="text" className="App__field" onChange={(event) => {
-							setPrice(event.target.value)
-						}}/>
-						<button onClick={createProductPrice} type="submit">Enregistrer</button>
-					</div>
-				)}
-			</div>
+							)}
+						</div>
+					</Route>
+					<Route path={'/add'} exact>
+						<Inputzone
+							onProductUpdate={fetchProducts}
+							onCharacterUpdate={fetchCharacters}
+							charactersList={charactersList}
+							onFilter={setFilteredCharacter}
+							filteredCharacter={filteredCharacter}
+						/>
+					</Route>
+				</Switch>
+			</BrowserRouter>
 		</div>
 	);
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool failed
  * @property float rate
  * @property int id
+ * @property int price
  */
 class Productprice extends Model
 {

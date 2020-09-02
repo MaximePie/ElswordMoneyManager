@@ -36,9 +36,11 @@ class ProductController extends Controller
 
             if ($currentProductPrice) {
                 $product['current_price'] = $currentProductPrice->price;
+                $product['current_rate'] = $currentProductPrice->rate;
             }
             else {
                 $product['current_price'] = 0;
+                $product['current_rate'] = '?';
             }
 
             if ($product->character_id) {

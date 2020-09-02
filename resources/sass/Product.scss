@@ -1,9 +1,14 @@
 .Product {
 	display: grid;
-	grid-template-columns: 200px 80px 200px 80px 80px 80px 80px;
+	grid-template-columns: 120px 80px 80px 80px 32px 32px 32px 32px;
 	grid-column-gap: 8px;
 
 	&__field {
 		text-align: center;
+		cursor: pointer;
+	}
+
+	&__character {
+		width: 80px;
 	}
 }
