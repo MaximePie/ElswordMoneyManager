@@ -111,7 +111,7 @@ class ProductpriceController extends Controller
             if ($request->success) {
                 $productPrice->success ++;
                 $productPrice->rate = $productPrice->failed != 0
-                    ? ($productPrice->failed + $productPrice->success) / $productPrice->success
+                    ?  $productPrice->success / ($productPrice->failed + $productPrice->success) * 100
                     : 100;
                 /** @var Product $product */
                 $product->current_price_id = $productPrice->next_product_price_id ?? $productPrice->id;
@@ -119,7 +119,7 @@ class ProductpriceController extends Controller
             else {
                 $productPrice->failed ++;
                 $productPrice->rate = $productPrice->success != 0
-                    ? ($productPrice->failed + $productPrice->success) / $productPrice->success
+                    ? $productPrice->success / ($productPrice->failed + $productPrice->success) * 100
                     : 0;
                 $product->current_price_id = $productPrice->last_product_price_id ?? $productPrice->id;
             }
