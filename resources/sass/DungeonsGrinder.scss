@@ -1,0 +1,53 @@
+.DungeonsGrinder {
+	height: calc(100vh - 16px);
+	width: 70vw;
+	min-width: 500px;
+	padding: 8px;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	grid-column-gap: 32px;
+
+	&__list, &__details {
+		background-color: white;
+		margin-top: 3em;
+		padding: 8px;
+		border-radius: 8px;
+	}
+
+	&__list {
+		&-dungeon {
+			padding: 16px;
+			height: 80px;
+			margin: 8px 0;
+			border-bottom: solid;
+		}
+	}
+
+	&__title {
+		font-size: 2em;
+	}
+
+	&__average {
+		font-size: 1.5em;
+		font-weight: 600;
+		margin-left: 16px;
+	}
+
+	&__products-list {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	&__product {
+		display: grid;
+		grid-template-columns: 80px 1fr 300px;
+		grid-column-gap: 16px;
+		margin: 8px 0;
+
+		&-quantity {
+			text-align: center;
+			border-radius: 4px;
+		}
+	}
+}

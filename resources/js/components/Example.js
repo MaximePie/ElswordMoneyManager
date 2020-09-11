@@ -8,6 +8,7 @@ import FilterZone from "./FilterZone";
 import Inputzone from "./Inputzone";
 import Navbar from "./Navbar";
 import Product from "./Product";
+import DungeonsGrinder from "./DungeonsGrinder";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
@@ -91,6 +92,11 @@ function App() {
 							onFilter={setFilteredCharacter}
 							filteredCharacter={filteredCharacter}
 						/>
+					</Route>
+					<Route path={'/dungeons'}>
+						<DungeonsGrinder>
+
+						</DungeonsGrinder>
 					</Route>
 				</Switch>
 			</BrowserRouter>
