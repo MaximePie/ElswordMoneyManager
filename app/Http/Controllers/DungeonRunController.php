@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Dungeon;
 use App\DungeonRun;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DungeonRunController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -20,29 +22,34 @@ class DungeonRunController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param Dungeon $dungeon
+	 * @param Request $request
+	 * @return void
+	 */
+    public function store(Dungeon $dungeon, Request $request)
     {
-        //
+        return DungeonRun::Create([
+        	'earnedCoins' => $request->earnedCoins,
+					'dungeon_id' => $dungeon->id,
+					'time' => $request->time
+				]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DungeonRun  $dungeonRun
-     * @return \Illuminate\Http\Response
+     * @param DungeonRun $dungeonRun
+     * @return Response
      */
     public function show(DungeonRun $dungeonRun)
     {
@@ -52,8 +59,8 @@ class DungeonRunController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DungeonRun  $dungeonRun
-     * @return \Illuminate\Http\Response
+     * @param DungeonRun $dungeonRun
+     * @return Response
      */
     public function edit(DungeonRun $dungeonRun)
     {
@@ -63,9 +70,9 @@ class DungeonRunController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DungeonRun  $dungeonRun
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param DungeonRun $dungeonRun
+     * @return Response
      */
     public function update(Request $request, DungeonRun $dungeonRun)
     {
@@ -75,8 +82,8 @@ class DungeonRunController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DungeonRun  $dungeonRun
-     * @return \Illuminate\Http\Response
+     * @param DungeonRun $dungeonRun
+     * @return Response
      */
     public function destroy(DungeonRun $dungeonRun)
     {

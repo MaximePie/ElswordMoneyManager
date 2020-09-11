@@ -1,0 +1,12 @@
+.DungeonProduct {
+	border: solid;
+	display: grid;
+	grid-template-columns: 80px 1fr 300px;
+	grid-column-gap: 16px;
+	margin: 8px 0;
+
+	&-quantity {
+		text-align: center;
+		border-radius: 4px;
+	}
+}

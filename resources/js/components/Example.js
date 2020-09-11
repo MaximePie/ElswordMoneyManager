@@ -94,9 +94,7 @@ function App() {
 						/>
 					</Route>
 					<Route path={'/dungeons'}>
-						<DungeonsGrinder>
-
-						</DungeonsGrinder>
+						<DungeonsGrinder productsList={productsList}/>
 					</Route>
 				</Switch>
 			</BrowserRouter>

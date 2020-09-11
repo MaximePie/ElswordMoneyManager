@@ -20,6 +20,7 @@
 			height: 80px;
 			margin: 8px 0;
 			border-bottom: solid;
+			cursor: pointer;
 		}
 	}
 
@@ -39,15 +40,11 @@
 		flex-direction: column;
 	}
 
-	&__product {
-		display: grid;
-		grid-template-columns: 80px 1fr 300px;
-		grid-column-gap: 16px;
-		margin: 8px 0;
-
-		&-quantity {
-			text-align: center;
-			border-radius: 4px;
+	&__products-actions {
+		.DungeonsGrinder__product-input-row {
+			margin: 4px 0;
+			font-size: 1.25em;
+			cursor: pointer;
 		}
 	}
 }
