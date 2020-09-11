@@ -56,6 +56,7 @@ function App() {
 											charactersList={charactersList}
 											onUpdateSelectedCharacter={onUpdateSelectedCharacter}
 											onEdit={() => setEditedProduct({...product})}
+											onDelete={fetchProducts}
 											onPriceUpdate={updateCurrentPrice}
 										/>
 									)

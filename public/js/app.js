@@ -72852,6 +72852,7 @@ function App() {
       onEdit: function onEdit() {
         return setEditedProduct(_objectSpread({}, product));
       },
+      onDelete: fetchProducts,
       onPriceUpdate: updateCurrentPrice
     });
   })), editedProduct && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73178,14 +73179,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../server */ "./resources/js/server.js");
 
 
-function Product(props) {
+function Product(_ref) {
   var _product$character;
 
-  var product = props.product,
-      charactersList = props.charactersList,
-      onSelectedCharacter = props.onSelectedCharacter,
-      onEdit = props.onEdit,
-      onPriceUpdate = props.onPriceUpdate;
+  var product = _ref.product,
+      charactersList = _ref.charactersList,
+      onSelectedCharacter = _ref.onSelectedCharacter,
+      onEdit = _ref.onEdit,
+      onPriceUpdate = _ref.onPriceUpdate,
+      onDelete = _ref.onDelete,
+      children = _ref.children;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "Product"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -73235,7 +73238,7 @@ function Product(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-trash"
-  })), props.children);
+  })), children);
   /**
    * Update the selected character
    */
@@ -73254,7 +73257,7 @@ function Product(props) {
 
 
   function deleteProduct(productId) {
-    _server__WEBPACK_IMPORTED_MODULE_1__["default"].get("products/delete/".concat(productId)).then(fetchProducts);
+    _server__WEBPACK_IMPORTED_MODULE_1__["default"].get("products/delete/".concat(productId)).then(onDelete);
   }
   /**
    * Update the current price

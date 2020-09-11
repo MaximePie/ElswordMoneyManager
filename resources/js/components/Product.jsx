@@ -1,8 +1,15 @@
 import React from 'react';
 import server from "../server";
 
-export default function Product(props) {
-	const { product, charactersList, onSelectedCharacter, onEdit, onPriceUpdate} = props;
+export default function Product({
+		product,
+		charactersList,
+		onSelectedCharacter,
+		onEdit,
+		onPriceUpdate,
+		onDelete,
+		children,
+	}) {
 
 	return (
 		<div className="Product">
@@ -21,7 +28,9 @@ export default function Product(props) {
 						className="Product__character"
 						name="character"
 						value={product.character?.id}
-						onChange={(event) => {updateSelectedCharacter(event.target.value, product.id)}}>
+						onChange={(event) => {
+							updateSelectedCharacter(event.target.value, product.id)
+						}}>
 						<option value={undefined}/>
 						{charactersList.map((character) => {
 							return (
@@ -33,10 +42,14 @@ export default function Product(props) {
 					</select>
 				)}
 			</span>
-			<span className="Product__field" onClick={() => {updateCurrentPrice(product, true)}}>
+			<span className="Product__field" onClick={() => {
+				updateCurrentPrice(product, true)
+			}}>
 				<i className="fas fa-plus"/>
 			</span>
-			<span className="Product__field" onClick={() => {updateCurrentPrice(product, false)}}>
+			<span className="Product__field" onClick={() => {
+				updateCurrentPrice(product, false)
+			}}>
 				<i className="fas fa-minus"/>
 			</span>
 			<span className="Product__field" onClick={onEdit}>
@@ -45,7 +58,7 @@ export default function Product(props) {
 			<span className="Product__field" onClick={() => deleteProduct(product.id)}>
 				<i className="fas fa-trash"/>
 			</span>
-			{props.children}
+			{children}
 		</div>
 	);
 
@@ -65,7 +78,7 @@ export default function Product(props) {
 	 * @param productId
 	 */
 	function deleteProduct(productId) {
-		server.get(`products/delete/${productId}`).then(fetchProducts);
+		server.get(`products/delete/${productId}`).then(onDelete);
 	}
 
 
@@ -74,8 +87,8 @@ export default function Product(props) {
 	 */
 	function updateCurrentPrice(updatedProduct, success) {
 		server.post('updateProductPrice', {
-				productPriceId: updatedProduct.current_price_id,
-				success, productId: updatedProduct.id
+			productPriceId: updatedProduct.current_price_id,
+			success, productId: updatedProduct.id
 		}).then(onPriceUpdate);
 	}
 }
