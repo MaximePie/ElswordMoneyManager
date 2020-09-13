@@ -8,6 +8,7 @@ export default function DungeonsGrinder({productsList}) {
 	const [selectedDungeon, setSelectedDungeon] = useState(undefined);
 	const [searchedProduct, setSearchedProduct] = useState(undefined);
 	const [time, setTime] = useState(undefined);
+	const [coins, setCoins] = useState(0);
 
 	const [dungeons, setDungeons] = useState([]);
 	const [displayedProducts, setDisplayedProducts] = useState([]);
@@ -115,20 +116,11 @@ export default function DungeonsGrinder({productsList}) {
 						<div className="DungeonsGrinder__timer">
 							<span>Temps passé dessus là</span>
 							<input className="DungeonsGrinder__input" onChange={(event) =>
+								setCoins(event.target.value)
+							}/>
+							<input className="DungeonsGrinder__input" onChange={(event) =>
 								setTime(event.target.value)
 							}/>
-						</div>
-						<div className="DungeonsGrinder__product-input">
-							<input className="DungeonsGrinder__input" onChange={(event) =>
-								setSearchedProduct(event.target.value)
-							}/>
-							{displayedProducts.length && displayedProducts.map((product) => {
-								return (
-									<div className="DungeonsGrinder__product-input-row" onClick={() => addProduct(product)}>
-										{product.name}
-									</div>
-								)
-							})}
 						</div>
 						<div className="DungeonsGrinder__global-actions">
 							<span className="DungeonsGrinder__product-total">
@@ -142,6 +134,18 @@ export default function DungeonsGrinder({productsList}) {
 							>
 								Sauvegarder
 							</button>
+						</div>
+						<div className="DungeonsGrinder__product-input">
+							<input className="DungeonsGrinder__input" onChange={(event) =>
+								setSearchedProduct(event.target.value)
+							}/>
+							{displayedProducts.length && displayedProducts.map((product) => {
+								return (
+									<div className="DungeonsGrinder__product-input-row" onClick={() => addProduct(product)}>
+										{product.name}
+									</div>
+								)
+							})}
 						</div>
 					</div>
 				</div>
@@ -204,6 +208,9 @@ export default function DungeonsGrinder({productsList}) {
 	 * Send the current gained PP to the
 	 */
 	function saveDungeonRun() {
-		server.post('dungeonRun/' + selectedDungeon.id, {earnedCoins: dungeonCurrentRunPrice, time}).then(fetchDungeons);
+		server.post('dungeonRun/' + selectedDungeon.id, {
+			earnedCoins: dungeonCurrentRunPrice + coins,
+			time
+		}).then(fetchDungeons);
 	}
 }

@@ -72854,30 +72854,35 @@ function DungeonsGrinder(_ref) {
       time = _useState8[0],
       setTime = _useState8[1];
 
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
       _useState10 = _slicedToArray(_useState9, 2),
-      dungeons = _useState10[0],
-      setDungeons = _useState10[1];
+      coins = _useState10[0],
+      setCoins = _useState10[1];
 
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState12 = _slicedToArray(_useState11, 2),
-      displayedProducts = _useState12[0],
-      setDisplayedProducts = _useState12[1];
+      dungeons = _useState12[0],
+      setDungeons = _useState12[1];
 
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState14 = _slicedToArray(_useState13, 2),
-      dungeonProducts = _useState14[0],
-      setDungeonProducts = _useState14[1];
+      displayedProducts = _useState14[0],
+      setDisplayedProducts = _useState14[1];
 
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      dungeonCurrentRunPrice = _useState16[0],
-      setDungeonCurrentRunPrice = _useState16[1];
+      dungeonProducts = _useState16[0],
+      setDungeonProducts = _useState16[1];
 
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
       _useState18 = _slicedToArray(_useState17, 2),
-      dungeonPrices = _useState18[0],
-      setDungeonPrices = _useState18[1];
+      dungeonCurrentRunPrice = _useState18[0],
+      setDungeonCurrentRunPrice = _useState18[1];
+
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState20 = _slicedToArray(_useState19, 2),
+      dungeonPrices = _useState20[0],
+      setDungeonPrices = _useState20[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (productsList) {
@@ -72976,9 +72981,24 @@ function DungeonsGrinder(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Temps pass\xE9 dessus l\xE0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "DungeonsGrinder__input",
     onChange: function onChange(event) {
+      return setCoins(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "DungeonsGrinder__input",
+    onChange: function onChange(event) {
       return setTime(event.target.value);
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "DungeonsGrinder__global-actions"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "DungeonsGrinder__product-total"
+  }, dungeonCurrentRunPrice, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-caret-down"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "DungeonsGrinder__submit",
+    onClick: saveDungeonRun,
+    disabled: !time || !dungeonCurrentRunPrice
+  }, "Sauvegarder")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "DungeonsGrinder__product-input"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "DungeonsGrinder__input",
@@ -72992,17 +73012,7 @@ function DungeonsGrinder(_ref) {
         return addProduct(product);
       }
     }, product.name);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "DungeonsGrinder__global-actions"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "DungeonsGrinder__product-total"
-  }, dungeonCurrentRunPrice, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-caret-down"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "DungeonsGrinder__submit",
-    onClick: saveDungeonRun,
-    disabled: !time || !dungeonCurrentRunPrice
-  }, "Sauvegarder")))));
+  })))));
   /**
    * Add a product to the selected products on a dungeon and update the SelectedProducts List
    */
@@ -73070,7 +73080,7 @@ function DungeonsGrinder(_ref) {
 
   function saveDungeonRun() {
     _server__WEBPACK_IMPORTED_MODULE_1__["default"].post('dungeonRun/' + selectedDungeon.id, {
-      earnedCoins: dungeonCurrentRunPrice,
+      earnedCoins: dungeonCurrentRunPrice + coins,
       time: time
     }).then(fetchDungeons);
   }
