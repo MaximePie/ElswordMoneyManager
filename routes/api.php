@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('characters', 'CharacterController@index');
 Route::get('dungeons', 'DungeonController@index');
+Route::get('equipments', 'EquipmentController@index');
+Route::get('nextTarget', 'EquipmentController@nextTarget');
+Route::get('equipment/delete/{equipment}', 'EquipmentController@nextTarget');
 Route::get('dungeonProducts/{dungeon}', 'DungeonProductController@index');
 Route::get('products/{filteredCharacter?}', 'ProductController@index');
 Route::get('products/delete/{product}', 'ProductController@destroy');
@@ -29,6 +32,7 @@ Route::get('addDungeonProduct/{product}/{dungeon}', 'DungeonProductController@st
 Route::post('dungeonRun/{dungeon}', 'DungeonRunController@store');
 Route::post('addDungeon', 'DungeonController@store');
 Route::post('product', 'ProductController@store');
+Route::post('equipment', 'EquipmentController@store');
 Route::post('character', 'CharacterController@store');
 Route::post('productPrice', 'ProductpriceController@store');
 Route::post('updateProductPrice', 'ProductpriceController@update');

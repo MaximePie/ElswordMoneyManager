@@ -9,6 +9,7 @@ import Inputzone from "./Inputzone";
 import Navbar from "./Navbar";
 import Product from "./Product";
 import DungeonsGrinder from "./DungeonsGrinder";
+import EquipmentsPage from "./EquipmentsPage";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
@@ -93,8 +94,11 @@ function App() {
 							filteredCharacter={filteredCharacter}
 						/>
 					</Route>
-					<Route path={'/dungeons'}>
+					<Route path='/dungeons'>
 						<DungeonsGrinder productsList={productsList}/>
+					</Route>
+					<Route path='/catalog'>
+						<EquipmentsPage/>
 					</Route>
 				</Switch>
 			</BrowserRouter>
