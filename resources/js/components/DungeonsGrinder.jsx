@@ -116,7 +116,7 @@ export default function DungeonsGrinder({productsList}) {
 						<div className="DungeonsGrinder__timer">
 							<span>Argent récolté</span>
 							<input className="DungeonsGrinder__input" onChange={(event) =>
-								setCoins(event.target.value)
+								setCoins(parseInt(event.target.value, 10))
 							}/>
 							<span>Temps passé dessus là</span>
 							<input className="DungeonsGrinder__input" onChange={(event) =>
