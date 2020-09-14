@@ -19,7 +19,9 @@ class DungeonProductController extends Controller
 	 */
 	public function index(Dungeon $dungeon)
 	{
-		$dungeonProducts = $dungeon->dungeonProducts()->get();
+		$dungeonProducts = $dungeon->dungeonProducts()
+			->join('productprices', 'productprices.product_id', '=', 'dungeonProduct.id')
+			->get();
 		$dungeonProducts->each(function (DungeonProduct $dungeonProduct) {
 			/** @var Product $product */
 			$product = Product::find($dungeonProduct->product_id);
