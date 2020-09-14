@@ -15,7 +15,7 @@ export default function DungeonProduct({onPriceUpdate, product}) {
     <div className="DungeonProduct">
 			<input
 				type="text"
-				className="DungeonProduct__product-quantity"
+				className="DungeonProduct-quantity"
 				value={amount}
 				onChange={(event) => setAmount(parseInt(event.target.value))}
 			/>

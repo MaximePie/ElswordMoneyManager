@@ -58,7 +58,6 @@ export default function DungeonsGrinder({productsList}) {
 		if (dungeonPrices.length) {
 			const filteredPrices = [...dungeonPrices]
 				.filter(price => {
-					console.log(price);
 					return !!price
 				});
 
@@ -113,20 +112,29 @@ export default function DungeonsGrinder({productsList}) {
 						)}
 					</div>
 					<div className="DungeonsGrinder__products-actions">
-						<div className="DungeonsGrinder__timer">
-							<span>Argent récolté</span>
-							<input className="DungeonsGrinder__input" onChange={(event) =>
-								setCoins(parseInt(event.target.value, 10))
-							}/>
-							<span>Temps passé dessus là</span>
-							<input className="DungeonsGrinder__input" onChange={(event) =>
-								setTime(event.target.value)
-							}/>
+						<div className="DungeonsGrinder__additionnal-info">
+							<p>
+								<span>Argent récolté</span>
+								<input className="DungeonsGrinder__input" onChange={(event) =>
+									setCoins(parseInt(event.target.value, 10))
+								}/>
+							</p>
+							<p>
+								<span>Temps passé (sec)</span>
+								<input className="DungeonsGrinder__input" onChange={(event) =>
+									setTime(event.target.value)
+								}/>
+							</p>
 						</div>
 						<div className="DungeonsGrinder__global-actions">
 							<span className="DungeonsGrinder__product-total">
 								{dungeonCurrentRunPrice}
-								<i className="fas fa-caret-down"/>
+								{dungeonCurrentRunPrice > selectedDungeon.averageRewards && (
+									<i className="fas fa-caret-up DungeonsGrinder__indicator DungeonsGrinder__indicator--positive"/>
+								)}
+								{dungeonCurrentRunPrice < selectedDungeon.averageRewards && (
+									<i className="fas fa-caret-down DungeonsGrinder__indicator DungeonsGrinder__indicator--negative"/>
+								)}
 							</span>
 							<button
 								className="DungeonsGrinder__submit"
@@ -136,8 +144,12 @@ export default function DungeonsGrinder({productsList}) {
 								Sauvegarder
 							</button>
 						</div>
+
 						<div className="DungeonsGrinder__product-input">
-							<input className="DungeonsGrinder__input" onChange={(event) =>
+							<span>Rechercher</span>
+							<input
+								className="DungeonsGrinder__input"
+								onChange={(event) =>
 								setSearchedProduct(event.target.value)
 							}/>
 							{displayedProducts.length && displayedProducts.map((product) => {

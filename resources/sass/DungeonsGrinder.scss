@@ -31,7 +31,7 @@
 	&__average {
 		font-size: 1.5em;
 		font-weight: 600;
-		margin-left: 16px;
+		margin: 0 16px;
 	}
 
 	&__products-list {
@@ -45,6 +45,29 @@
 			margin: 4px 0;
 			font-size: 1.25em;
 			cursor: pointer;
+		}
+	}
+
+	&__input {
+		margin: 0 4px;
+	}
+
+	&__global-actions {
+		font-size: 1.25em;
+		margin: 8px 0;
+		border-bottom: 2px #a4a4a4 solid;
+		padding: 8px;
+	}
+
+	&__indicator {
+		margin: 0 4px;
+
+		&--positive {
+			color: forestgreen;
+		}
+
+		&--negative {
+			color: darkorange;
 		}
 	}
 }
