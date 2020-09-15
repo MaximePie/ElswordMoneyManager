@@ -23,6 +23,7 @@ Route::get('dungeons', 'DungeonController@index');
 Route::get('equipments', 'EquipmentController@index');
 Route::get('nextTarget', 'EquipmentController@nextTarget');
 Route::get('equipment/delete/{equipment}', 'EquipmentController@nextTarget');
+Route::get('equipment/afford/{equipment}', 'EquipmentController@afford');
 Route::get('dungeonProducts/{dungeon}', 'DungeonProductController@index');
 Route::get('products/{filteredCharacter?}', 'ProductController@index');
 Route::get('products/delete/{product}', 'ProductController@destroy');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Equipment;
+use App\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -28,8 +29,26 @@ class EquipmentController extends Controller
 	 */
 	public function nextTarget()
 	{
-		return response()->json(['nextEquipment' => Equipment::query()->orderBy('price', 'asc')->first()]);
+		$nextTarget = Equipment::query()
+			->where('isBought', false)
+			->orderBy('price', 'asc')->first();
+		return response()->json(['nextEquipment' => $nextTarget]);
 	}
+
+
+	/**
+	 * Set the equipment to bought
+	 *
+	 * @param Equipment $equipment
+	 * @return Equipment
+	 */
+	public function afford(Equipment $equipment)
+	{
+		$equipment->isBought = true;
+		$equipment->save();
+		return $equipment;
+	}
+
 
 	/**
 	 * Store a newly created resource in storage.

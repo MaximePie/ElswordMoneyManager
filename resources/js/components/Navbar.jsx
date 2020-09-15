@@ -16,7 +16,9 @@ export default function Navbar(props) {
 			<Link to='/dungeons' className="Navbar__link">Donjons</Link>
 			<Link to='/catalog' className="Navbar__link">Catalogue</Link>
 			{nextTarget && (
-				<span className="Navbar__target">Next target : {nextTarget.name} - {nextTarget.price}</span>
+				<span className="Navbar__target" onClick={handleBoughtTarget}>
+					Next target : {nextTarget.name} - {nextTarget.price}
+				</span>
 			)}
 		</div>
 	);
@@ -31,5 +33,12 @@ export default function Navbar(props) {
 				setNextTarget(nextEquipment)
 			}
 		})
+	}
+
+	/**
+	 * Inform the backoffice that the target has been bought
+	 */
+	function handleBoughtTarget() {
+		server.get(`equipment/afford/${nextTarget.id}`).then(fetchNextTarget)
 	}
 }

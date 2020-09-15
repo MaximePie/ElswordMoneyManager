@@ -17,6 +17,7 @@ class CreateEquipmentTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('price');
+            $table->boolean('isBought');
             $table->timestamps();
         });
     }

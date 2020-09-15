@@ -17,123 +17,110 @@ class ProductController extends Controller
 	 * @param Character|null $filteredCharacter
 	 * @return JsonResponse
 	 */
-    public function index(Character $filteredCharacter = null)
-    {
-        $products = Product::query();
+	public function index(Character $filteredCharacter = null)
+	{
+		$products = Product::query();
 
-        if ($filteredCharacter !== null) {
-        	$products = $products->where('character_id', $filteredCharacter->id);
-				}
-        else {
-        	$products = $products->orderBy('character_id');
-				}
+		if ($filteredCharacter !== null) {
+			$products = $products->where('character_id', $filteredCharacter->id);
+		} else {
+			$products = $products->orderBy('character_id');
+		}
 
-				$products = $products->get();
+		$products = $products->get();
 
-        $products->each(function (Product $product) {
-            /** @var Productprice $currentProductPrice */
-            $currentProductPrice = Productprice::find($product->current_price_id);
+		$products->each(function (Product $product) {
+			/** @var Productprice $currentProductPrice */
+			$currentProductPrice = Productprice::find($product->current_price_id);
 
-            if ($currentProductPrice) {
-                $product['current_price'] = $currentProductPrice->price;
-                $product['current_rate'] = $currentProductPrice->rate;
-            }
-            else {
-                $product['current_price'] = 0;
-                $product['current_rate'] = '?';
-            }
+			if ($currentProductPrice) {
+				$product['current_price'] = $currentProductPrice->price;
+				$product['current_rate'] = $currentProductPrice->rate;
+			} else {
+				$product['current_price'] = 0;
+				$product['current_rate'] = '?';
+			}
 
-            if ($product->character_id) {
-                /** @var Character $character */
-                $character = Character::findOrFail($product->character_id);
-                $product['character'] = $character;
-            }
-        });
+			if ($product->character_id) {
+				/** @var Character $character */
+				$character = Character::findOrFail($product->character_id);
+				$product['character'] = $character;
+			}
+		});
 
-        return response()->json(['products' => $products]);
-    }
+		return response()->json(['products' => $products]);
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function store(Request $request)
-    {
-        if ($request->name) {
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+	public function store(Request $request)
+	{
+		if ($request->name) {
 
-            $product = Product::create(['name' => $request->name]);
+			$product = Product::create(['name' => $request->name]);
 
-            if ($request->selectedCharacter) {
-                $character = Character::findOrFail($request->selectedCharacter);
-                $product->character_id = $character->id;
-                $product->save();
-            }
+			if ($request->selectedCharacter) {
+				$character = Character::findOrFail($request->selectedCharacter);
+				$product->character_id = $character->id;
+				$product->save();
+			}
 
-            return response()->json($product);
-        } else {
-            return response()->json(["Error"]);
-        }
-    }
+			return response()->json($product);
+		} else {
+			return response()->json(["Error"]);
+		}
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Product $product
-     * @return JsonResponse
-     */
-    public function show(Product $product)
-    {
-        $productPrices = Productprice::where('product_id', $product->id)->get();
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param Product $product
+	 * @return JsonResponse
+	 */
+	public function show(Product $product)
+	{
+		$productPrices = Productprice::where('product_id', $product->id)->get();
 
-        return response()->json(['productPrices' => $productPrices]);
-    }
+		return response()->json(['productPrices' => $productPrices]);
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Product $product
-     * @return Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param Request $request
+	 * @param Product $product
+	 * @return Response
+	 */
+	public function update(Request $request, Product $product)
+	{
+		$character = Character::findOrFail($request->characterId);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Product $product
-     * @return Response
-     */
-    public function update(Request $request, Product $product)
-    {
-        $character = Character::findOrFail($request->characterId);
+		$product->character_id = $character->id;
+		$product->save();
+	}
 
-        $product->character_id = $character->id;
-        $product->save();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Product $product
-     * @return void
-     */
-    public function destroy(Product $product)
-    {
-        $product->forceDelete();
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param Product $product
+	 * @return void
+	 */
+	public function destroy(Product $product)
+	{
+		$product->forceDelete();
+	}
 }
