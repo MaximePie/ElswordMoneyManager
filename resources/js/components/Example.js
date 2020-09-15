@@ -21,7 +21,7 @@ function App() {
 	const [filteredCharacter, setFilteredCharacter] = React.useState(undefined);
 	const [editedProduct, setEditedProduct] = React.useState(undefined);
 	const [productPrices, setProductPrices] = React.useState(undefined);
-	const [price, setPrice] = React.useState(undefined);
+	const [price, setPrice] = React.useState('');
 
 	useEffect(() => {
 		fetchProducts();
@@ -148,8 +148,30 @@ function App() {
 	 * Create the Product Price
 	 */
 	function createProductPrice() {
+
+		let newPrice = 0;
+		if (productPrices && productPrices.length)
+		{
+			/**
+			 * Inferior to the lowest price
+			 */
+			console.log("Entering productPrices");
+			console.log("0 : " + productPrices[0].price);
+			console.log("Last : " + productPrices[productPrices.length - 1].price);
+			const intPrice = parseInt(price, 10);
+			const priceInterval = productPrices - price;
+			if (price < productPrices[0].price) {
+				newPrice = intPrice - priceInterval
+			}
+			else if (price > productPrices[productPrices.length - 1].price) {
+				newPrice = intPrice + priceInterval
+			}
+		}
+
+		console.log(newPrice)
+
 		server.post('productPrice', {price, productId: editedProduct.id}).then(() => {
-			setPrice('');
+			setPrice(newPrice);
 			fetchProductPrices();
 		});
 	}

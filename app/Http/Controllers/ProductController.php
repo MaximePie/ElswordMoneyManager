@@ -93,7 +93,10 @@ class ProductController extends Controller
 	 */
 	public function show(Product $product)
 	{
-		$productPrices = Productprice::where('product_id', $product->id)->get();
+		$productPrices = Productprice::query()
+			->where('product_id', $product->id)
+			->orderBy('price', 'asc')
+			->get();
 
 		return response()->json(['productPrices' => $productPrices]);
 	}

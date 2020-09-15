@@ -130,10 +130,14 @@ export default function DungeonsGrinder({productsList}) {
 							<span className="DungeonsGrinder__product-total">
 								{dungeonCurrentRunPrice}
 								{dungeonCurrentRunPrice > selectedDungeon.averageRewards && (
-									<i className="fas fa-caret-up DungeonsGrinder__indicator DungeonsGrinder__indicator--positive"/>
+									<div className="DungeonsGrinder__indicator DungeonsGrinder__indicator--positive">
+										<i className="fas fa-caret-up"/>
+									</div>
 								)}
 								{dungeonCurrentRunPrice < selectedDungeon.averageRewards && (
-									<i className="fas fa-caret-down DungeonsGrinder__indicator DungeonsGrinder__indicator--negative"/>
+									<div className="DungeonsGrinder__indicator DungeonsGrinder__indicator--negative">
+										<i className="fas fa-caret-down"/>
+									</div>
 								)}
 							</span>
 							<button
